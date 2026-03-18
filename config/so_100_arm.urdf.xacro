@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="so_100_arm">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+    <xacro:arg name="use_fake_hardware" default="false"/>
+
+    <xacro:include filename="$(find so_100_arm)/urdf/so_100_arm.urdf" />
+
+    <xacro:include filename="$(find so_100_arm)/urdf/so_100_arm.ros2_control.xacro" />
+
+    <xacro:so_100_arm_ros2_control 
+        name="SO100ARM" 
+        initial_positions_file="$(arg initial_positions_file)"
+        use_fake_hardware="$(arg use_fake_hardware)"/> 
+
+    <gazebo>
+        <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <parameters>$(find so_100_arm)/config/ros2_controllers.yaml</parameters>
+        </plugin>
+    </gazebo>
+</robot>
